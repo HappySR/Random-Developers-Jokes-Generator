@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <div>
+        <h1>Hindi Jokes Generator</h1>
+    </div>
+    <h2 class = "steps">STEP 1 :</h2>
+    <p class="centre">Get your API Key from => <a href="https://hindi-jokes-api.onrender.com/">this link</a></p>
+    <h2 class = "steps">STEP 2 :</h2>
+    <div class = "centre">
+        <label>Enter Your API Key => </label>
+        <input type="text" id = "myText">
+    </div>
+    <div class = "centre">
+        <button class = "btn" id = "getAPI">Submit API</button>
+    </div>
+    <div class = "centre">
+        <p class = "submitApiMsg hide"></p>
+    </div>
+    <h2 class = "steps">STEP 3 :</h2>
+    <div>
+        <p class = "jokesContainer" id = jokes></p>
+    </div>
+    <div class = "centre">
+        <button class = "btn" id = generateJoke>Get a Joke!</button>
+    </div>
+    <script src="script.js"></script>
+</body>
+</html>

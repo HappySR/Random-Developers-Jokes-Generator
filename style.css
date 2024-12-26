@@ -1,0 +1,58 @@
+* {
+    margin: 0;
+    padding: 0;
+}
+
+h1{
+    text-align: center;
+    margin: 2rem;
+    color: white;
+}
+
+body {
+    font-size: larger;
+    background : linear-gradient(to right, red, orange, yellow);
+    color: white;
+}
+
+p {
+    color : black;
+}
+
+button {
+    padding: 0.5rem 1rem;
+    border-radius: 20px;
+    border: none;
+    font-size: 1rem;
+    cursor: pointer;
+}
+
+input {
+    width: 45vw;
+}
+
+.centre {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height : 10vh
+}
+
+.steps {
+    text-align: left;
+    color: white;
+    padding: 1rem;
+    padding-left: 20vw;
+}
+
+.jokesContainer {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    padding-left: 20vw;
+    padding-right: 20vw;
+}
+
+.hide {
+    display: none;
+}
