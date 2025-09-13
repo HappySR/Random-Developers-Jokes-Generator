@@ -3,33 +3,323 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Hindi Jokes Generator</title>
-    <link rel="stylesheet" href="style.css">
+    <title>The Wit & Wisdom Lounge</title>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;600;700&family=Inter:wght@300;400;500&display=swap');
+        
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: 'Inter', sans-serif;
+            background: linear-gradient(135deg, #1a1a1a 0%, #2d2d2d 100%);
+            min-height: 100vh;
+            color: #e8e8e8;
+            position: relative;
+        }
+        
+        /* Subtle background pattern */
+        body::before {
+            content: '';
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-image: 
+                radial-gradient(circle at 25% 25%, rgba(220, 220, 220, 0.02) 0%, transparent 50%),
+                radial-gradient(circle at 75% 75%, rgba(220, 220, 220, 0.02) 0%, transparent 50%);
+            z-index: -1;
+        }
+        
+        .container {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            min-height: 100vh;
+            padding: 3rem 2rem;
+            max-width: 800px;
+            margin: 0 auto;
+        }
+        
+        h1 {
+            font-family: 'Playfair Display', serif;
+            font-size: 3.2rem;
+            font-weight: 700;
+            text-align: center;
+            margin-bottom: 1rem;
+            color: #f5f5f5;
+            letter-spacing: -1px;
+            line-height: 1.1;
+        }
+        
+        .subtitle {
+            font-size: 1rem;
+            color: #b8b8b8;
+            text-align: center;
+            margin-bottom: 4rem;
+            font-weight: 300;
+            letter-spacing: 2px;
+            text-transform: uppercase;
+        }
+        
+        .joke-container {
+            background: rgba(255, 255, 255, 0.05);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 16px;
+            padding: 3rem;
+            margin: 2rem 0;
+            min-height: 200px;
+            width: 100%;
+            max-width: 600px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+            backdrop-filter: blur(20px);
+            box-shadow: 
+                0 8px 32px rgba(0, 0, 0, 0.3),
+                inset 0 1px 0 rgba(255, 255, 255, 0.1);
+            transition: all 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+            position: relative;
+        }
+        
+        .joke-container::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 1px;
+            background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.2), transparent);
+        }
+        
+        .joke-container:hover {
+            transform: translateY(-2px);
+            box-shadow: 
+                0 12px 40px rgba(0, 0, 0, 0.4),
+                inset 0 1px 0 rgba(255, 255, 255, 0.15);
+            border-color: rgba(255, 255, 255, 0.15);
+        }
+        
+        .joke-text {
+            font-size: 1.2rem;
+            line-height: 1.7;
+            color: #f0f0f0;
+            font-weight: 400;
+            white-space: pre-line;
+            transition: all 0.3s ease;
+        }
+        
+        .loading {
+            color: #c0c0c0;
+            font-style: italic;
+            animation: fadeInOut 2s ease-in-out infinite;
+        }
+        
+        @keyframes fadeInOut {
+            0%, 100% { opacity: 0.6; }
+            50% { opacity: 1; }
+        }
+        
+        .generate-btn {
+            background: linear-gradient(135deg, #4a4a4a 0%, #2a2a2a 100%);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            border-radius: 50px;
+            padding: 1rem 2.5rem;
+            font-size: 0.95rem;
+            font-weight: 500;
+            font-family: 'Inter', sans-serif;
+            color: #f0f0f0;
+            cursor: pointer;
+            position: relative;
+            transition: all 0.3s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+            text-transform: uppercase;
+            letter-spacing: 1.5px;
+            box-shadow: 
+                0 4px 16px rgba(0, 0, 0, 0.3),
+                inset 0 1px 0 rgba(255, 255, 255, 0.1);
+            overflow: hidden;
+        }
+        
+        .generate-btn::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.1), transparent);
+            transition: left 0.6s ease;
+        }
+        
+        .generate-btn:hover {
+            transform: translateY(-1px);
+            background: linear-gradient(135deg, #5a5a5a 0%, #3a3a3a 100%);
+            border-color: rgba(255, 255, 255, 0.3);
+            box-shadow: 
+                0 6px 20px rgba(0, 0, 0, 0.4),
+                inset 0 1px 0 rgba(255, 255, 255, 0.15);
+        }
+        
+        .generate-btn:hover::before {
+            left: 100%;
+        }
+        
+        .generate-btn:active {
+            transform: translateY(0);
+            transition: transform 0.1s ease;
+        }
+        
+        .generate-btn:disabled {
+            opacity: 0.6;
+            cursor: not-allowed;
+            transform: none;
+        }
+        
+        /* Elegant divider */
+        .divider {
+            width: 60px;
+            height: 1px;
+            background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.3), transparent);
+            margin: 2rem 0;
+        }
+        
+        /* Quote marks decoration */
+        .quote-decoration {
+            position: relative;
+        }
+        
+        .quote-decoration::before {
+            content: '"';
+            position: absolute;
+            top: -10px;
+            left: -20px;
+            font-size: 3rem;
+            color: rgba(255, 255, 255, 0.1);
+            font-family: 'Playfair Display', serif;
+            line-height: 1;
+        }
+        
+        .quote-decoration::after {
+            content: '"';
+            position: absolute;
+            bottom: -30px;
+            right: -20px;
+            font-size: 3rem;
+            color: rgba(255, 255, 255, 0.1);
+            font-family: 'Playfair Display', serif;
+            line-height: 1;
+        }
+        
+        /* Responsive design */
+        @media (max-width: 768px) {
+            .container {
+                padding: 2rem 1.5rem;
+            }
+            
+            h1 {
+                font-size: 2.4rem;
+                margin-bottom: 0.5rem;
+            }
+            
+            .subtitle {
+                font-size: 0.9rem;
+                margin-bottom: 3rem;
+            }
+            
+            .joke-container {
+                padding: 2rem;
+                margin: 1.5rem 0;
+                min-height: 160px;
+            }
+            
+            .joke-text {
+                font-size: 1.1rem;
+            }
+            
+            .generate-btn {
+                padding: 0.9rem 2rem;
+                font-size: 0.85rem;
+            }
+        }
+        
+        @media (max-width: 480px) {
+            h1 {
+                font-size: 2rem;
+            }
+            
+            .joke-container {
+                padding: 1.5rem;
+            }
+            
+            .joke-text {
+                font-size: 1rem;
+                line-height: 1.6;
+            }
+            
+            .generate-btn {
+                padding: 0.8rem 1.5rem;
+                font-size: 0.8rem;
+                letter-spacing: 1px;
+            }
+        }
+    </style>
 </head>
 <body>
-    <div>
-        <h1>Hindi Jokes Generator</h1>
+    <div class="container">
+        <h1>The Wit & Wisdom Lounge</h1>
+        <div class="subtitle">Curated Humor for the Discerning Mind</div>
+        
+        <div class="joke-container">
+            <div class="joke-text quote-decoration" id="jokes">Welcome to our collection of refined humor.<br>Please select below to discover your next smile.</div>
+        </div>
+        
+        <div class="divider"></div>
+        
+        <button class="generate-btn" id="generateJoke">
+            Discover Wit
+        </button>
     </div>
-    <h2 class = "steps">STEP 1 :</h2>
-    <p class="centre">Get your API Key from => <a href="https://hindi-jokes-api.onrender.com/">this link</a></p>
-    <h2 class = "steps">STEP 2 :</h2>
-    <div class = "centre">
-        <label>Enter Your API Key => </label>
-        <input type="text" id = "myText">
-    </div>
-    <div class = "centre">
-        <button class = "btn" id = "getAPI">Submit API</button>
-    </div>
-    <div class = "centre">
-        <p class = "submitApiMsg hide"></p>
-    </div>
-    <h2 class = "steps">STEP 3 :</h2>
-    <div>
-        <p class = "jokesContainer" id = jokes></p>
-    </div>
-    <div class = "centre">
-        <button class = "btn" id = generateJoke>Get a Joke!</button>
-    </div>
-    <script src="script.js"></script>
+
+    <script>
+        const joke = document.querySelector("#jokes");
+        const generateJoke = document.querySelector("#generateJoke");
+        
+        const getJokes = async () => {
+            joke.innerHTML = "Curating the perfect jest for you...";
+            joke.className = "joke-text loading";
+            generateJoke.disabled = true;
+            generateJoke.innerHTML = "Please Wait...";
+            
+            try {
+                let response = await fetch("https://official-joke-api.appspot.com/random_joke");
+                if (!response.ok) throw new Error("Failed to fetch joke");
+                let data = await response.json();
+                
+                setTimeout(() => {
+                    joke.innerHTML = `${data.setup}\n\n${data.punchline}`;
+                    joke.className = "joke-text quote-decoration";
+                    generateJoke.disabled = false;
+                    generateJoke.innerHTML = "Discover Wit";
+                }, 800);
+                
+            } catch (error) {
+                setTimeout(() => {
+                    joke.innerHTML = "We apologize, but our humor curator is temporarily unavailable.\nPlease try again in a moment.";
+                    joke.className = "joke-text";
+                    generateJoke.disabled = false;
+                    generateJoke.innerHTML = "Discover Wit";
+                    console.error("Error fetching joke:", error);
+                }, 800);
+            }
+        };
+        
+        generateJoke.addEventListener("click", getJokes);
+    </script>
 </body>
 </html>

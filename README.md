@@ -1,2 +1,2 @@
-# Hindi-Jokes-Generator
+# Random-Jokes-Generator
 A mini project using APIs.
